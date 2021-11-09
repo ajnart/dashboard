@@ -8,4 +8,4 @@ jobs:
     if: ${{ github.ref == 'refs/heads/dev/front'}}
     runs-on: ubuntu-latest
     steps:
-      - run: "cypress run && git switch release && git merge dev/front release"
+      - run: "cd front && cypress run && git switch release && git merge dev/front release"
