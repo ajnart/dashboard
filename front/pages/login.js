@@ -1,44 +1,51 @@
-import { Box, Spacer, Center, ButtonGroup, Button, InputGroup, Input, InputRightElement } from "@chakra-ui/react"
-import React, { useState, setValue } from 'react';
+import { useForm } from "react-hook-form";
+import React from "react";
+import {
+	FormErrorMessage,
+	FormLabel,
+	FormControl,
+	Input,
+	Button,
+	Center
+} from "@chakra-ui/react";
 
-export default function Home() {
-	const [show, setShow] = useState(false)
-	const [login, password] = useState('')
-	const changePass = (e) => { password = e.target.value }
-	const changeUser = (e) => { login = e.target.value }
+export default function HookForm() {
+	const {
+		handleSubmit,
+		register,
+		formState: { errors, isSubmitting }
+	} = useForm();
 
-	const handleClick = () => setShow(!show)
-	const submit = () => {
-		//TOOD: Add backend request to login
-		console.log(`Attemping to login with ${login}:${password}`)
+	function onSubmit(values){
+		return new Promise((resolve) => {
+			setTimeout(() => {
+				alert(JSON.stringify(values, null, 2));
+				resolve();
+			}, 3000);
+		});
 	}
 
 	return (
-		<>
-		<Box padding="40" paddingBottom="10">
-			<Input 
-				placeholder="Username" />
-			<Spacer my="2" />
-			<InputGroup>
-				<Input
-					type={show ? "text" : "password"}
-					placeholder="Password"
-				/>
-				<InputRightElement width="4.5rem">
-					<Button h="1.75rem" size="sm" onClick={handleClick}>
-						{show ? "Hide" : "Show"}
-					</Button>
-				</InputRightElement>
-			</InputGroup>
-			<Spacer my="5"/>
-			<Center>
-				<ButtonGroup variant="outline" spacing="6">
-					<Button colorScheme="blue">Login</Button>
-					<Button>Signup</Button>
-				</ButtonGroup>
-			</Center>
-			</Box>
-
-		</>
-	)
+		<Center>
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<FormControl isInvalid={errors.name}>
+					<FormLabel htmlFor="name">First name</FormLabel>
+					<Input
+						id="name"
+						placeholder="name"
+						{...register("name", {
+							required: "This is required",
+							minLength: { value: 4, message: "Minimum length should be 4" }
+						})}
+					/>
+					<FormErrorMessage>
+						{errors.name && errors.name.message}
+					</FormErrorMessage>
+				</FormControl>
+				<Button mt={4} colorScheme="teal" isLoading={isSubmitting} type="submit">
+					Submit
+				</Button>
+			</form>
+		</Center>
+	);
 }
