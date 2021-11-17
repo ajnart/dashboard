@@ -7,7 +7,9 @@ import {
 	FormControl,
 	Input,
 	Button,
-	Center
+	Text,
+	Center,
+	VStack
 } from "@chakra-ui/react";
 
 export default function HookForm() {
@@ -17,45 +19,51 @@ export default function HookForm() {
 		formState: { errors, isSubmitting }
 	} = useForm();
 
-	function onSubmit(values){
+	function onSubmit(values) {
 		return new Promise((resolve) => {
-			setTimeout(() => {
-				alert(JSON.stringify(values, null, 2));
-				resolve();
-			}, 3000);
+			//TODO: Attatch backend call here
+			console.log(JSON.stringify(values));
+			resolve();
 		});
 	}
 
 	return (
-		<Center>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<FormControl isInvalid={errors.name}>
-					<FormLabel m="2" htmlFor="login">Username</FormLabel>
-					<Input
-						id="login"
-						type="text"
-						placeholder="username"
-						{...register("username", {
-							required: "A username is required.",
-						})}
-					/>
-					<FormLabel m="2" htmlFor="password">Password</FormLabel>
-					<Input
-						id="password"
-						type="password"
-						placeholder="password"
-						{...register("password", {
-							required: "A password is required.",
-						})}
-						
-					/>
-					<FormErrorMessage>
-						{errors.name && errors.name.message}
-					</FormErrorMessage>
-				</FormControl>
-				<Button m={4} colorScheme="teal" isLoading={isSubmitting} type="submit">Login</Button>
-				<Button m={4}><Link href="/register">Register</Link></Button>
-			</form>
-		</Center>
+		<>
+			<Center h="100vh">
+				<VStack>
+					<Text fontSize="4xl" m="4">Welcome back ! Please log-in</Text>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<FormControl isInvalid={errors.username}>
+							<FormLabel m="2" htmlFor="login">Username</FormLabel>
+							<Input
+								id="login"
+								type="text"
+								placeholder="username"
+								{...register("username", {
+									required: "A username is required.",
+								})}
+							/>
+							<FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
+						</FormControl>
+						<FormControl isInvalid={errors.password}>
+							<FormLabel m="2" htmlFor="password">Password</FormLabel>
+							<Input
+								id="password"
+								type="password"
+								placeholder="password"
+								{...register("password", {
+									required: "A password is required.",
+								})}
+							/>
+							<FormErrorMessage>
+								{errors.password && errors.password.message}
+							</FormErrorMessage>
+						</FormControl>
+						<Button m={4} colorScheme="teal" isLoading={isSubmitting} type="submit">Login</Button>
+						<Button m={4}><Link href="/register">Register</Link></Button>
+					</form>
+				</VStack>
+			</Center>
+		</>
 	);
 }
