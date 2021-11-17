@@ -1,12 +1,12 @@
 import { useForm } from "react-hook-form";
 import React from "react";
+import Link from "next/link";
 import {
 	FormErrorMessage,
 	FormLabel,
 	FormControl,
 	Input,
 	Button,
-	Link,
 	Center
 } from "@chakra-ui/react";
 
@@ -35,12 +35,19 @@ export default function HookForm() {
 						id="login"
 						type="text"
 						placeholder="username"
+						{...register("username", {
+							required: "A username is required.",
+						})}
 					/>
 					<FormLabel m="2" htmlFor="password">Password</FormLabel>
 					<Input
 						id="password"
 						type="password"
 						placeholder="password"
+						{...register("password", {
+							required: "A password is required.",
+						})}
+						
 					/>
 					<FormErrorMessage>
 						{errors.name && errors.name.message}
