@@ -9,6 +9,7 @@ import {
 	Button,
 	Text,
 	Center,
+	useToast,
 	VStack
 } from "@chakra-ui/react";
 
@@ -20,6 +21,11 @@ export default function HookForm() {
 	} = useForm();
 
 	function onSubmit(values) {
+		toast({
+			title: `Trying to log you in...`,
+			position: "top-right",
+			isClosable: true,
+		})
 		return new Promise((resolve) => {
 			console.log('trying to log in')
 			setTimeout(() => {
@@ -30,9 +36,10 @@ export default function HookForm() {
 					});
 			}, 3000);
 			resolve();
+			// TODO: Add JWT to cookie
 		});
 	}
-
+	const toast = useToast()
 	return (
 		<>
 			<Center h="100vh">
@@ -65,7 +72,7 @@ export default function HookForm() {
 								{errors.password && errors.password.message}
 							</FormErrorMessage>
 						</FormControl>
-						<Button m={4} colorScheme="teal" isLoading={isSubmitting} type="submit">Login</Button>
+						<Button m={4} colorScheme="blue" isLoading={isSubmitting} type="submit">Login</Button>
 						<Button m={4}><Link href="/register">Register</Link></Button>
 					</form>
 				</VStack>
