@@ -1,0 +1,16 @@
+{
+  "services":[
+    {
+      "name":"google",
+      "position":"1"
+    },
+    {
+      "name":"spotify",
+      "position":"2"
+    },
+    {
+      "name":"redtube",
+      "position":"3"
+    }
+  ]
+}

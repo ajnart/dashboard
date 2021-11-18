@@ -1,6 +1,9 @@
+import ServicePannel from '../components/ServicePannel'
+
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div>
+      <ServicePannel />
     </div>
   )
 }
