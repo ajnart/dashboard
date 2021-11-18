@@ -24,7 +24,7 @@ import { useEffect, useState } from 'react'
 import Providers from './Providers'
 import ConnectionModal from './ConnectionModale'
 
-const ServiceButton = ({ index, name }) => {
+const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
   const s = {
     OK: 0,
     KO: 1,
@@ -51,12 +51,23 @@ const ServiceButton = ({ index, name }) => {
       return
     }
     //select the service, we'll need a hook to return the selected service
+    setService(name)
+    closeDrawer()
     console.log("service " + name + " have been selected")
   }
 
   return (
     <>
-      <Button key={index} variant="outline" h="20" w="100%" ml={5} mr={5} onClick={selectService}>
+      <Button
+        key={index}
+        variant="outline"
+        h="20"
+        w="100%"
+        ml={5}
+        mr={5}
+        onClick={selectService}
+        background={service == name ? "grey.100" : "white"}
+      >
         <HStack justifyContent="space-between" w="100%">
           <VStack align="left">
             <Text as="b" size="md" align="left">{name}</Text>
@@ -70,7 +81,7 @@ const ServiceButton = ({ index, name }) => {
   )
 }
 
-export default () => {
+export default ({ service, setService }) => {
   // const obj = JSON.parse(mockdata);
   // const dataset = obj.services
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -96,7 +107,13 @@ export default () => {
           <DrawerBody>
             <VStack spacing={10}>
               {dataset.services.map((item, index) => (
-                <ServiceButton key={index} name={item.name} />
+                <ServiceButton
+                key={index}
+                name={item.name}
+                service={service}
+                setService={setService}
+                closeDrawer={onClose}
+                />
               ))}
             </VStack>
           </DrawerBody>
