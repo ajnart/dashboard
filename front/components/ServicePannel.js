@@ -3,11 +3,7 @@ import {
   Circle,
   VStack,
   HStack,
-  Box,
-  Flex,
-  Spacer,
   IconButton,
-  Heading,
   Text,
   Drawer,
   DrawerBody,
@@ -52,7 +48,6 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       onOpen()
       return
     }
-    //select the service, we'll need a hook to return the selected service
     setService(name)
     closeDrawer()
   }
@@ -74,7 +69,10 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
             <Text as="b" size="md" align="left">{name}</Text>
             <Text size="sm" align="left">this is a description</Text>
           </VStack>
-          <Circle background={isConnected == s.OK ? "green.500" : isConnected == s.KO ? "red" : "orange"} size="30px" />
+          <Circle
+            background={isConnected == s.OK ? "green.500" : isConnected == s.KO ? "red" : "orange"}
+            size="30px"
+          />
         </HStack>
       </Button>
       <ConnectionModal isOpen={isOpen} onClose={onClose} serviceName={name} />

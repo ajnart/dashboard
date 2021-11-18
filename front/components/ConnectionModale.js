@@ -6,7 +6,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
+  Center,
 } from "@chakra-ui/react"
 
 export default ({ serviceName, isOpen, onClose }) => {
@@ -19,9 +19,10 @@ export default ({ serviceName, isOpen, onClose }) => {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Connect to {serviceName}</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
-          <Button onClick={connect}>Connection...</Button>
+          <Center>
+            <Button align="center" onClick={connect}>Connect!</Button>
+          </Center>
         </ModalBody>
 
         <ModalFooter>
