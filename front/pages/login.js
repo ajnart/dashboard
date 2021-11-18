@@ -21,8 +21,14 @@ export default function HookForm() {
 
 	function onSubmit(values) {
 		return new Promise((resolve) => {
-			//TODO: Attatch backend call here
-			console.log(JSON.stringify(values));
+			console.log('trying to log in')
+			setTimeout(() => {
+				fetch("/api/login", { method: "POST", body: values })
+					.then((res) => res.json())
+					.finally(() => {
+						toast.closeAll()
+					});
+			}, 3000);
 			resolve();
 		});
 	}
