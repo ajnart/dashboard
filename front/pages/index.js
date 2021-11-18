@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <div>
       <ServicePannel service={service} setService={setService} />
-      <h1>service: {service}</h1>
     </div>
   )
 }

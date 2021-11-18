@@ -6,6 +6,7 @@ import {
   Box,
   Flex,
   Spacer,
+  IconButton,
   Heading,
   Text,
   Drawer,
@@ -20,6 +21,7 @@ import {
 import dataset from '../mocks/service.json'
 import { useRef } from 'react'
 import { useEffect, useState } from 'react'
+import { GiHamburgerMenu } from 'react-icons/gi'
 
 import Providers from './Providers'
 import ConnectionModal from './ConnectionModale'
@@ -53,7 +55,6 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
     //select the service, we'll need a hook to return the selected service
     setService(name)
     closeDrawer()
-    console.log("service " + name + " have been selected")
   }
 
   return (
@@ -66,7 +67,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
         ml={5}
         mr={5}
         onClick={selectService}
-        background={service == name ? "grey.100" : "white"}
+        background={service == name ? "lightgrey" : ""}
       >
         <HStack justifyContent="space-between" w="100%">
           <VStack align="left">
@@ -89,9 +90,17 @@ export default ({ service, setService }) => {
 
   return (
     <>
-      <Button ref={btnRef} onClick={onOpen}>
-        Open
-      </Button>
+      <IconButton
+        isRound
+        colorScheme="blue"
+        aria-label="Toggle service list"
+        mt={8}
+        ml={8}
+        icon={<GiHamburgerMenu />}
+        onClick={onOpen}
+        ref={btnRef}
+      >
+      </IconButton>
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -108,11 +117,11 @@ export default ({ service, setService }) => {
             <VStack spacing={10}>
               {dataset.services.map((item, index) => (
                 <ServiceButton
-                key={index}
-                name={item.name}
-                service={service}
-                setService={setService}
-                closeDrawer={onClose}
+                  key={index}
+                  name={item.name}
+                  service={service}
+                  setService={setService}
+                  closeDrawer={onClose}
                 />
               ))}
             </VStack>
