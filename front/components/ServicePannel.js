@@ -18,6 +18,7 @@ import dataset from '../mocks/service.json'
 import { useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
+import { useCookies } from 'react-cookie';
 
 import Providers from './Providers'
 import ConnectionModal from './ConnectionModale'
@@ -28,6 +29,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
     KO: 1,
     loading: 2,
   }
+  const [cookies, setCookie] = useCookies(['name']);
   const provider = Providers.find(provider => provider.name === name)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [isConnected, setIsConnected] = useState(s.KO);
@@ -44,10 +46,14 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
   }, [])
 
   function selectService() {
-    if (isConnected != s.OK) {
+    if (isConnected == s.loading) {
+      return
+    }
+    if (isConnected == s.KO) {
       onOpen()
       return
     }
+    setCookie('name', name, {path: '/'})
     setService(name)
     closeDrawer()
   }
