@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useCookies } from 'react-cookie';
 
-import Providers from './Providers'
+import { providers } from './Providers'
 import ConnectionModal from './ConnectionModale'
 
 const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
@@ -29,19 +29,36 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
     KO: 1,
     loading: 2,
   }
-  const [cookies, setCookie] = useCookies(['name']);
-  const provider = Providers.find(provider => provider.name === name)
+  const provider = providers.find(provider => provider.name === name)
+  const cookieName = name + 'Service'
+  const [cookies, setCookie] = useCookies(['currentServiceName', cookieName]);
+  const [isConnected, setIsConnected] = useState(s.loading);
+  const serviceCookie = cookies[cookieName]
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isConnected, setIsConnected] = useState(s.KO);
   useEffect(() => {
-    if (!provider.needAuth) {
-      setIsConnected(s.OK)
-    } else {
-      setIsConnected(s.loading)
-      //make a test request to check if its connected
-      //if it's woring, set isConnected to OK
-      //else, set isConnected to KO
-      // setIsConnected(status.OK)
+    async function checkConnection() {
+      console.log(provider)
+      await provider.check({ token: serviceCookie.token })
+        .then(() => {
+          console.log(name, ": good...")
+          setIsConnected(s.OK)
+        })
+        .catch(() => {
+          console.log(name, ": oof...")
+          setIsConnected(s.KO)
+        })
+    }
+    console.log("name: ", serviceCookie)
+    if (!serviceCookie || !"token" in serviceCookie) {
+      if (!provider.needAuth) {
+        setIsConnected(s.OK)
+      } else {
+        setIsConnected(s.KO)
+      }
+    }
+    else {
+      console.log(name, ": checking connection...")
+      checkConnection()
     }
   }, [])
 
@@ -53,7 +70,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       onOpen()
       return
     }
-    setCookie('name', name, {path: '/'})
+    setCookie('currentServiceName', name, { path: '/' })
     setService(name)
     closeDrawer()
   }

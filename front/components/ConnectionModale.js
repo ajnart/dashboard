@@ -8,11 +8,11 @@ import {
   ModalBody,
   Center,
 } from "@chakra-ui/react"
+import { providers } from "./Providers"
 
 export default ({ serviceName, isOpen, onClose }) => {
-  function connect() {
-    console.log("connect")
-  }
+  const Sender = providers.find( ({name}) => name == serviceName).send
+  console.log(typeof serviceName)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} >
@@ -21,7 +21,7 @@ export default ({ serviceName, isOpen, onClose }) => {
         <ModalHeader>Connect to {serviceName}</ModalHeader>
         <ModalBody>
           <Center>
-            <Button align="center" onClick={connect}>Connect!</Button>
+            <Sender />
           </Center>
         </ModalBody>
 
