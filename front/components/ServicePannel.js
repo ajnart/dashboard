@@ -14,7 +14,6 @@ import {
   DrawerCloseButton,
   useDisclosure
 } from '@chakra-ui/react'
-import dataset from '../mocks/service.json'
 import { useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
@@ -108,6 +107,21 @@ export default ({ service, setService }) => {
   // const dataset = obj.services
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
+  const [dataset, setDataset] = useState([])
+
+  useEffect(() => {
+    async function fetchList() {
+      return await fetch('/api/services')
+      .then(res => {
+        console.log(res.json())
+        setDataset(res.json())
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+    fetchList()
+  }, [])
 
   return (
     <>
