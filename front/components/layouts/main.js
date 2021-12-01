@@ -6,7 +6,7 @@ const Main = ({ children }) => {
     <Box as="main" pb={8}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>BlueStone - Welcome</title>
+        <title>The Dashboard</title>
       </Head>
 
       <Box>
