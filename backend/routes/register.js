@@ -64,7 +64,6 @@ app.post('/login', function(req, res) {
   dateTime.then((dateTime) => {
     db.all('SELECT * FROM USERS_TABLE WHERE username = ? AND password = ?', [username, pass], (err, data) => {
       if (err) {
-        console.error(err);
         res.status(404).send({ message: "Can't find an user with these logs"});
       } else {
         const Refreshtoken = jwt.sign(
