@@ -10,7 +10,6 @@ const logger = require('morgan');
 
 
 const app = express();
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -30,6 +29,12 @@ app.use('/widget', widgetRouter);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
+});
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
 
 // error handler

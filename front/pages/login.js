@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import React, { useEffect } from "react";
 import NextLink from "next/link";
 import { useRouter } from 'next/router'
+import axios from 'axios'
 import {
   FormErrorMessage,
   FormLabel,
@@ -44,15 +45,16 @@ export default function HookForm() {
       position: "top-right",
       isClosable: true,
     })
-    fetch("localhost:8080/login", { method: "POST", body: values })
+    axios.post('http://localhost:8080/login', values)
       .then((res) => {
         if (res.status == 202) {
           setCookie("user", {
-            token: res.json().token,
-            expires: res.json().expire,
-            refreshToken: res.json().refreshToken,
+            token: res.data.token,
+            expires: res.data.expire,
+            refreshToken: res.data.refreshToken,
           }, { path: "/" });
           toast.closeAll()
+            router.push("/")
         } else {
           toast({
             title: "Error:" + err.message,
