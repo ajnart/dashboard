@@ -8,5 +8,5 @@ let current = new Date();
 //     let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
 //     resolve (cDate + ' ' + cTime);
 // });
-const dateTime = (current.now() + 7776000000);
+const dateTime = (current.now + 7776000000);
 module.exports = dateTime;
