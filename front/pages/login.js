@@ -1,14 +1,19 @@
 import { useForm } from "react-hook-form";
-import React from "react";
+import React, { useEffect } from "react";
+import NextLink from "next/link";
+import { useRouter } from 'next/router'
 import {
   FormErrorMessage,
   FormLabel,
   FormControl,
   Input,
   Button,
-  Link,
-  Center
+  Text,
+  Center,
+  useToast,
+  VStack
 } from "@chakra-ui/react";
+import { useCookies } from "react-cookie"
 
 export default function HookForm() {
   const {
@@ -16,40 +21,93 @@ export default function HookForm() {
     register,
     formState: { errors, isSubmitting }
   } = useForm();
+  const toast = useToast();
+  const [cookie, setCookie] = useCookies();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (cookie["user"]) {
+      toast({
+        title: "You are already logged in",
+        description: "You can't login twice",
+        status: "error",
+        duration: 9000,
+        isClosable: true
+      });
+      router.push("/");
+    }
+  }, []);
 
   function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 3000);
-    });
+    toast({
+      title: `Trying to log you in...`,
+      position: "top-right",
+      isClosable: true,
+    })
+    fetch("localhost:8080/login", { method: "POST", body: values })
+      .then((res) => {
+        if (res.status == 202) {
+          setCookie("user", {
+            token: res.json().token,
+            expires: res.json().expire,
+            refreshToken: res.json().refreshToken,
+          }, { path: "/" });
+          toast.closeAll()
+        } else {
+          toast({
+            title: "Error:" + err.message,
+            status: "error",
+            position: "top-right",
+            isClosable: true,
+          })
+        }
+      })
+      .catch((err) => {
+        toast({
+          title: "Error:" + err.message,
+          status: "error",
+          position: "top-right",
+          isClosable: true,
+        })
+      });
   }
-
-  return (
-    <Center>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isInvalid={errors.name}>
-          <FormLabel m="2" htmlFor="login">Username</FormLabel>
-          <Input
-            id="login"
-            type="text"
-            placeholder="username"
-            {...register("email")}
-          />
-          <FormLabel m="2" htmlFor="password">Password</FormLabel>
-          <Input
-            id="password"
-            type="password"
-            placeholder="password"
-          />
-          <FormErrorMessage>
-            {errors.name && errors.name.message}
-          </FormErrorMessage>
-        </FormControl>
-        <Button m={4} colorScheme="teal" isLoading={isSubmitting} type="submit">Login</Button>
-        <Button m={4}><Link href="/register">Register</Link></Button>
-      </form>
-    </Center>
+  return cookie["user"] ? <></> : (
+    <>
+      <Center h="100vh">
+        <VStack>
+          <Text fontSize="4xl" m="4">Welcome back ! Please log-in</Text>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl isInvalid={errors.username}>
+              <FormLabel m="2" htmlFor="login">Username</FormLabel>
+              <Input
+                id="login"
+                type="text"
+                placeholder="username"
+                {...register("username", {
+                  required: "A username is required.",
+                })}
+              />
+              <FormErrorMessage>{errors.username && errors.username.message}</FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.password}>
+              <FormLabel m="2" htmlFor="password">Password</FormLabel>
+              <Input
+                id="password"
+                type="password"
+                placeholder="password"
+                {...register("password", {
+                  required: "A password is required.",
+                })}
+              />
+              <FormErrorMessage>
+                {errors.password && errors.password.message}
+              </FormErrorMessage>
+            </FormControl>
+            <Button m={4} colorScheme="blue" isLoading={isSubmitting} type="submit">Login</Button>
+            <Button m={4}><NextLink href="/register">Register</NextLink></Button>
+          </form>
+        </VStack>
+      </Center>
+    </>
   );
 }

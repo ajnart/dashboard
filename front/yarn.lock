@@ -1033,9 +1033,10 @@
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
 "@types/react@*":
-  version "17.0.36"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.36.tgz#0d81e0e2419e6a8e9ba6af5e3a0608e70835d7d1"
-  integrity sha512-CUFUp01OdfbpN/76v4koqgcpcRGT3sYOq3U3N6q0ZVGcyeP40NUdVU+EWe3hs34RNaTefiYyBzOpxBBidCc5zw==
+  version "17.0.37"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.37.tgz#6884d0aa402605935c397ae689deed115caad959"
+  integrity sha512-2FS1oTqBGcH/s0E+CjrCCR9+JMpsu9b69RTFO+40ua43ZqP5MmQ4iUde/dMjWR909KxZwmOQIFq6AV6NjEG5xg==
+
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -1611,6 +1612,11 @@ convert-source-map@1.7.0, convert-source-map@^1.5.0:
   integrity sha512-4FJkXzKXEDB1snCFZlLP4gpC3JILicCpGbzG9f9G7tGqGCzETQ2hWPrcinA9oU4wtf2biUaEH5065UnMeR33oA==
   dependencies:
     safe-buffer "~5.1.1"
+
+cookie@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.1.tgz#afd713fe26ebd21ba95ceb61f9a8116e50a537d1"
+  integrity sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
 
 cookie@^0.4.0:
   version "0.4.1"
@@ -3633,9 +3639,10 @@ react-focus-lock@2.5.2:
     use-sidecar "^1.0.5"
 
 react-hook-form@^7.19.5:
-  version "7.19.5"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.19.5.tgz#cc6087419facf2fb57d47d5b0d4a8ca63201298f"
-  integrity sha512-+M9gd0nWWASuEitf5PQGOGNElnHknzY3rGISrPDXwsOmZb7c/jyvkRUqk4OJXaZit1ZwesSv+EysttdAeFEfmw==
+  version "7.20.5"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.20.5.tgz#69d563c9cceafb2d4449bd3c28d17342b57b5830"
+  integrity sha512-xYeBmQW6oqxDYAYVWIoZYC7tRD6lJBJt9b8Rr1Mv/VhZ+ZUCy2IuXlm2YA9i0/zl0TKKxqBWQOxGEb3qyVIhMg==
+
 
 react-icons@^4.3.1:
   version "4.3.1"
