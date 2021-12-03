@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useCookies } from 'react-cookie'
 
 export default function Home() {
+
   const [service, setService] = useState("");
   const [cookies, setCookie] = useCookies(['name']);
   console.log(process.env.GOOGLE_ID)

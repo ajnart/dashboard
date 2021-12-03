@@ -3,22 +3,17 @@ import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie';
 
 export default () => {
-  const Receiver = providers.find(({ name }) => name === "youtube").receive
+  const Receiver = providers.find(({ name }) => name === "spotify").receive
   const [_, setCookie] = useCookies();
   const router = useRouter()
 
-  function handleSuccess(accessToken, { response }) {
-    setCookie('youtubeService', {
-      token: accessToken,
+  function handleSuccess(response) {
+    setCookie('spotifyService', {
+      token: response.access_token,
       expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
       refreshToken: response.refresh_token
     }, { path: '/' });
-    setCookie('gmailService', {
-      token: accessToken,
-      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-      refreshToken: response.refresh_token
-    }, { path: '/' });
-    console.log('Successfully authorized. access token:' + response)
+    console.log('Successfully authorized spotify. access token:' + response)
     router.replace('/')
   };
 
@@ -26,11 +21,14 @@ export default () => {
     console.error('An error occurred');
     console.error(error.message);
   };
+  console.log("query:", router.query)
 
-  return (
+  return !router.query.code ? <></> : (
     <Receiver
       handleSuccess={handleSuccess}
       handleError={handleError}
+      code={router.query.code}
     />
   );
 }
+

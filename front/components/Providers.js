@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Link } from '@chakra-ui/react';
 import { OauthSender, OauthReceiver } from 'react-oauth-flow';
+import axios from 'axios'
+import qs from 'qs'
 
 export const providers = [
   {
@@ -40,10 +42,10 @@ export const providers = [
     send: () => {
       return {}
     },
-    receive: ({/* handleSuccess, handleError */}) => {
+    receive: ({/* handleSuccess, handleError */ }) => {
       return {}
     },
-    check: ({/* token */}) => {
+    check: ({/* token */ }) => {
       return {}
     },
     refresh: function() {
@@ -54,13 +56,61 @@ export const providers = [
     needAuth: true,
     // authUrl: 'https://accounts.spotify.com/authorize'
     send: () => {
-      return {}
+      return (
+        <OauthSender
+          // {...this.props}
+          authorizeUrl="https://accounts.spotify.com/authorize"
+          clientId="df46dbf01ae440299ce85efae7c95693"
+          redirectUri="http://localhost:3000/oauth/spotify"
+          args={{
+            scope: "user-read-private user-read-email",
+          }}
+          render={({ url }) => <Link href={url}><Button>Connection</Button></Link>}
+        />
+      )
     },
-    receive: ({/* handleSuccess, handleError */}) => {
-      return {}
+    receive: ({ handleSuccess, handleError, code }) => {
+      const [isLoading, setIsLoading] = useState(true)
+      const [error, setError] = useState("")
+      useEffect(() => {
+        axios({
+          method: 'post',
+          url: "https://accounts.spotify.com/api/token",
+          data: qs.stringify({
+            code: code,
+            redirect_uri: "http://localhost:3000/oauth/spotify",
+            grant_type: "authorization_code"
+          }),
+          headers: {
+            'Authorization': 'Basic ' + btoa("df46dbf01ae440299ce85efae7c95693" + ':' + "c7d80d3ff56f4c83887f01b647fe5794"),
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        })
+          .then(res => {
+            setIsLoading(false)
+            handleSuccess(res.data)
+          })
+          .catch(err => {
+            setIsLoading(false)
+            handleError(err.message)
+            setError(err.message)
+          })
+      }, [])
+      return (
+        <div>
+          {isLoading && <p>Authorizing now...</p>}
+          {
+            error && (
+              <p className="error">An error occurred: {error}</p>
+            )
+          }
+        </div >
+      )
     },
-    check: ({/* token */}) => {
-      return {}
+    check: ({/* token */ }) => {
+      return new Promise((resolve, _) => {
+        resolve(true)
+      })
     },
     refresh: function() {
     }
@@ -72,10 +122,10 @@ export const providers = [
     send: () => {
       return {}
     },
-    receive: ({/* handleSuccess, handleError */}) => {
+    receive: ({/* handleSuccess, handleError */ }) => {
       return {}
     },
-    check: ({/* token */}) => {
+    check: ({/* token */ }) => {
       return {}
     },
     refresh: function() {
@@ -123,7 +173,7 @@ const googleReceive = ({ handleSuccess, handleError }) => {
 
 const googleCheck = ({ token }) => {
   return new Promise((resolve, reject) => {
-    fetch('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token)
+    axios.get('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + token)
       .then(_ => {
         resolve(true)
       })
