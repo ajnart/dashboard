@@ -3,17 +3,22 @@ import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie';
 
 export default () => {
-  const Receiver = providers.find(({ name }) => name === "google").receive
-  const [_, setCookie] = useCookies(['name']);
+  const Receiver = providers.find(({ name }) => name === "youtube").receive
+  const [_, setCookie] = useCookies();
   const router = useRouter()
 
   function handleSuccess(accessToken, { response }) {
-    setCookie('googleService', {
+    setCookie('youtubeService', {
       token: accessToken,
       expiresIn: response.expires_in,
       refreshToken: response.refresh_token
     }, { path: '/' });
-    console.log('Successfully authorized. access token:' + accessToken);
+    setCookie('gmailService', {
+      token: accessToken,
+      expiresIn: response.expires_in,
+      refreshToken: response.refresh_token
+    }, { path: '/' });
+    console.log('Successfully authorized. access token:' + response)
     router.replace('/')
   };
 

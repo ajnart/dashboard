@@ -22,14 +22,13 @@ import { useCookies } from 'react-cookie';
 import { providers } from './Providers'
 import ConnectionModal from './ConnectionModale'
 
-const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
+const ServiceButton = ({ index, provider, service, setService, closeDrawer }) => {
   const s = {
     OK: 0,
     KO: 1,
     loading: 2,
   }
-  const provider = providers.find(provider => provider.name === name)
-  const cookieName = name + 'Service'
+  const cookieName = provider.name + 'Service'
   const [cookies, setCookie] = useCookies(['currentServiceName', cookieName]);
   const [isConnected, setIsConnected] = useState(s.loading);
   const serviceCookie = cookies[cookieName]
@@ -39,11 +38,11 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       console.log(provider)
       await provider.check({ token: serviceCookie.token })
         .then(() => {
-          console.log(name, ": good...")
+          console.log(provider.name, ": good...")
           setIsConnected(s.OK)
         })
         .catch(() => {
-          console.log(name, ": oof...")
+          console.log(provider.name, ": oof...")
           setIsConnected(s.KO)
         })
     }
@@ -56,7 +55,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       }
     }
     else {
-      console.log(name, ": checking connection...")
+      console.log(provider.name, ": checking connection...")
       checkConnection()
     }
   }, [])
@@ -69,8 +68,8 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       onOpen()
       return
     }
-    setCookie('currentServiceName', name, { path: '/' })
-    setService(name)
+    setCookie('currentServiceName', provider.name, { path: '/' })
+    setService(provider.name)
     closeDrawer()
   }
 
@@ -84,11 +83,11 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
         ml={5}
         mr={5}
         onClick={selectService}
-        background={service == name ? "lightgrey" : ""}
+        background={service == provider.name ? "lightgrey" : ""}
       >
         <HStack justifyContent="space-between" w="100%">
           <VStack align="left">
-            <Text as="b" size="md" align="left">{name}</Text>
+            <Text as="b" size="md" align="left">{provider.name}</Text>
             <Text size="sm" align="left">this is a description</Text>
           </VStack>
           <Circle
@@ -97,7 +96,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
           />
         </HStack>
       </Button>
-      <ConnectionModal isOpen={isOpen} onClose={onClose} serviceName={name} />
+      <ConnectionModal isOpen={isOpen} onClose={onClose} serviceName={provider.name} />
     </>
   )
 }
@@ -107,21 +106,21 @@ export default ({ service, setService }) => {
   // const dataset = obj.services
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
-  const [dataset, setDataset] = useState([])
-
-  useEffect(() => {
-    async function fetchList() {
-      return await fetch('/api/services')
-      .then(res => {
-        console.log(res.json())
-        setDataset(res.json())
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
-    fetchList()
-  }, [])
+  // const [dataset, setDataset] = useState([])
+    //
+  // useEffect(() => {
+  //   async function fetchList() {
+  //     return await fetch('/api/services')
+  //     .then(res => {
+  //       console.log(res.json())
+  //       setDataset(res.json())
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //     })
+  //   }
+  //   fetchList()
+  // }, [])
 
   return (
     <>
@@ -134,8 +133,7 @@ export default ({ service, setService }) => {
         icon={<GiHamburgerMenu />}
         onClick={onOpen}
         ref={btnRef}
-      >
-      </IconButton>
+      />
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -150,10 +148,10 @@ export default ({ service, setService }) => {
           </DrawerHeader>
           <DrawerBody>
             <VStack spacing={10}>
-              {dataset.services.map((item, index) => (
+              {providers.map((item, index) => (
                 <ServiceButton
                   key={index}
-                  name={item.name}
+                  provider={item}
                   service={service}
                   setService={setService}
                   closeDrawer={onClose}
