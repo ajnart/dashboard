@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  front:
+    ports:
+      - 3000:3000
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+  api:
+    ports:
+      - 8080:8080
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
