@@ -1,0 +1,5 @@
+{"permissions": [
+  "localhost:3000/*",
+  "webRequest"
+]
+}
