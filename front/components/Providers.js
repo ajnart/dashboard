@@ -116,17 +116,64 @@ export const providers = [
     }
   },
   {
-    name: 'deezer',
+    name: 'github',
     needAuth: true,
-    // authUrl: 'https://accounts.spotify.com/authorize'
     send: () => {
-      return {}
+      return (
+        <OauthSender
+          // {...this.props}
+          authorizeUrl="https://github.com/login/oauth/authorize"
+          clientId="Iv1.a23c1baab59f9147"
+          redirectUri="http://localhost:3000/oauth/github"
+          args={{
+            scope: "repo user",
+          }}
+          render={({ url }) => <Link href={url}><Button>Connection</Button></Link>}
+        />
+      )
     },
-    receive: ({/* handleSuccess, handleError */ }) => {
-      return {}
+    receive: ({ handleSuccess, handleError, code }) => {
+      const [isLoading, setIsLoading] = useState(true)
+      const [error, setError] = useState("")
+      useEffect(() => {
+        axios({
+          method: 'post',
+          url: "https://github.com/login/oauth/access_token",
+          data: qs.stringify({
+            code: code,
+            redirect_uri: "http://localhost:3000/oauth/github",
+            client_id: "Iv1.a23c1baab59f9147",
+            client_secret: "0503c16ee56754a6eceb9241184e2dfe07252254"
+          }),
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+          .then(res => {
+            setIsLoading(false)
+            handleSuccess(res.data)
+          })
+          .catch(err => {
+            setIsLoading(false)
+            handleError(err.message)
+            setError(err.message)
+          })
+      }, [])
+      return (
+        <div>
+          {isLoading && <p>Authorizing now...</p>}
+          {
+            error && (
+              <p className="error">An error occurred: {error}</p>
+            )
+          }
+        </div >
+      )
     },
     check: ({/* token */ }) => {
-      return {}
+      return new Promise((resolve, _) => {
+        resolve(true)
+      })
     },
     refresh: function() {
     }

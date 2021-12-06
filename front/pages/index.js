@@ -1,9 +1,13 @@
 import ServicePannel from '../components/ServicePannel'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
+import { useToast } from "@chakra-ui/react";
 
 export default function Home() {
 
+  const router = useRouter()
+  const toast = useToast()
   const [service, setService] = useState("");
   const [cookies, setCookie] = useCookies(['name']);
   console.log(process.env.GOOGLE_ID)
