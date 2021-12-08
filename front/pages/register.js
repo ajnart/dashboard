@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import {
   FormErrorMessage,
@@ -20,6 +21,7 @@ import {
 export default function HookForm() {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
+  const [cookie, setCookie] = useCookies();
   const toast = useToast()
   const router = useRouter()
 
@@ -45,6 +47,12 @@ export default function HookForm() {
           }, { path: "/" });
           router.push('/login')
           toast.closeAll()
+          toast({
+            title: `Registered successfully`,
+            position: "top-right",
+            status: "success",
+            isClosable: true,
+          })
         } else {
           toast({
             title: "Error:" + err.message,
