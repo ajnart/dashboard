@@ -88,6 +88,9 @@ function WidgetCard(item) {
 								<MenuItem icon={<EditIcon />}>
 									Rename Widget
 								</MenuItem>
+								<MenuItem icon={<RepeatIcon />}>
+									Reload
+								</MenuItem>
 								<MenuItem icon={<DeleteIcon />} color="red">
 									Delete
 								</MenuItem>
