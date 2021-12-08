@@ -16,6 +16,13 @@ import {
 } from "@chakra-ui/react"
 import React from "react";
 
+/**
+ * Component used to wrap. (includes a WrapItem)  
+ * ``children`` props is **required**
+ * ```ts
+ * <CardWrapper name="Hello world!"><Text>Bonjour a tout•e•s</Text></CardWrapper>
+ * ```
+ */
 function CardWrapper(props) {
 	return (
 		<WrapItem>

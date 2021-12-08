@@ -3,9 +3,10 @@ import { AspectRatio, Box, Center, Link, Text, WrapItem } from "@chakra-ui/layou
 import React from "react";
 
 /**
- * Component used to wrap. CHILDREN props is required 
+ * Component used to wrap. (includes a WrapItem)  
+ * ``children`` props is **required**
  * ```ts
- * <Bubble text="hello" color="red.400" link="http://google.com/"/>
+ * <BubbleWrapper><Link href="https://github.com/"><Text>1650🌟</Text></Link></BubbleWrapper>
  * ```
  */
 function BubbleWrapper(props): JSX.Element {
