@@ -1,15 +1,15 @@
 import { useToast } from "@chakra-ui/react";
 import { useCookies } from "react-cookie";
 
-function checkCookie(name: string) {
+function checkCookie(cookieName: string, servicename: string) {
 	const toast = useToast()
-	const [cookies, setCookie] = useCookies([name]);
-	if (cookies[`${name}`] == undefined) {
+	const [cookies, setCookie] = useCookies([cookieName]);
+	if (cookies[`${cookieName}`] == undefined) {
 		toast.closeAll();
 		toast({
 			variant: 'error',
-			title: 'Spotify Service',
-			description: 'Please login to Spotify',
+			title: `${servicename} Service`,
+			description: `Please login to ${servicename}`,
 			status: 'error',
 			duration: 2000,
 			position: 'top-right',

@@ -35,7 +35,7 @@ import checkCookie from '../../tools/checkCookie';
 function SpotifyPlaylists(props: any) {
 	const [fetchedData, setData] = useState({ items: [] });
 	const toast = useToast()
-	const cookies = checkCookie("spotifyService");
+	const cookies = checkCookie("spotifyService", "Spotify");
 	if (cookies == null)
 		return null;
 	useEffect(() => {
