@@ -15,7 +15,10 @@ function BubbleWrapper(props): JSX.Element {
 		<WrapItem>
 			<Box p="5" borderRadius="90" boxShadow={'2xl'} backgroundColor={props.color ? props.color : "blue.500"}>
 				{
-					props.link ? <Link href={props.link}>{props.children}</Link> : props.children
+					<>
+					{props.showTitle ? <Text textAlign={"center"}>{props.name}</Text> : null}
+					{props.link ? <Link href={props.link}>{props.children}</Link> : props.children}
+					</>
 				}
 			</Box>
 		</WrapItem >

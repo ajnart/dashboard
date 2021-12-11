@@ -33,7 +33,7 @@ function GmailUnread(props): JSX.Element {
 		fetchData();
 	}, []);
 	return (
-		<BubbleWrapper color={props.color}>
+		<BubbleWrapper {...props}>
 			<Link href="https://mail.google.com/#inbox"><Text>{`${fetchedData["messagesUnread"]}`} unread</Text></Link>
 		</BubbleWrapper>
 	)
