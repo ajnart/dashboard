@@ -1,64 +1,66 @@
 import {
-	Button,
-	Circle,
-	VStack,
-	HStack,
-	IconButton,
-	Text,
-	Img,
-	Drawer,
-	DrawerBody,
-	DrawerFooter,
-	DrawerHeader,
-	DrawerOverlay,
-	DrawerContent,
-	DrawerCloseButton,
-	useDisclosure,
-	Box,
+    Box,
+	Image,
 	Link,
-	Image
+    Text,
 } from '@chakra-ui/react'
-import { useRef } from 'react'
 import { useEffect, useState } from 'react'
-import { GiHamburgerMenu } from 'react-icons/gi'
 import { useCookies } from 'react-cookie';
-import axios from 'axios';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import axios from 'axios'
+const emoji = require('country-to-emoji-flag')
 
-function SpotifyProfile(props: any) {
-	const [cookies, setCookie] = useCookies(['spotifyService']);
-	const [user, setUser] = useState({});
-	useEffect(() => {
-		console.log(cookies.spotifyService.token);
-		async function fetchData() {
-			try {
-				const res = await axios.get(`https://gmail.googleapis.com/gmail/v1/users/me/labels/INBOX`, {
-					headers: {
-						Authorization: `Bearer ${cookies.spotifyService.token}`,
-					}
-				});
-				setUser(res.data);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-		fetchData();
-	}, []);
+export default function spotifyProfile(token) {
+    const [cookies, setCookie] = useCookies(['spotifyService']);
+    // const [config, setConfig]= useState({});
+    const [user, setUser] : any | undefined = useState();
+    
 
-
-	return (
-		<Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-			<Text>Username: {user["display_name"]}</Text>
-			<Text>Email: {user["email"]}</Text>
-			{/* <Image src={user["images"][0]["url"]} 
-          borderRadius='full'
-          alt='Spotify Pfp'/> */}
-			<Link href={user["external_urls"]} isExternal>
-				Spotify page direct link <ExternalLinkIcon mx='2px' />
-			</Link>
-			<Text> Followers : {user["followers"]}</Text>
-		</Box>
-	)
+    // setConfig(axios.get('http://localhost:8080/widget/fetch', {
+    //   data: {
+    //     token: token,
+    //     name: "Spotify Profile",
+    //     serviceName: "Spotify"
+    //   }
+    // }));
+    
+    if (cookies.spotifyService.token) {
+      useEffect(() => {
+        console.log(cookies.spotifyService.token);
+        async function fetchData() {
+          try {
+            const res = await axios.get(`https://api.spotify.com/v1/me`, {
+              headers: {
+                Authorization: `Bearer ${cookies.spotifyService.token}`,
+              }
+            });
+            setUser(res.data);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+        fetchData();
+      }, []);
+      return (
+        // config.params.isEnabled ?
+          <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden'>
+            <Text>Username: {emoji(user.country) + user.display_name}</Text>
+            <Text>Email: {user.email}</Text>
+            <Image src={user.images.url} 
+              borderRadius='full'
+              alt='Spotify Pfp'/>
+            <Link href={user.external_urls.spotify} isExternal>
+                Spotify page direct link <ExternalLinkIcon mx='2px' />
+            </Link>
+            <Text> Followers : {user.followers.total}</Text>
+          </Box>
+        // : <div></div>
+      )
+  } else {
+    return (
+      <div>
+        <Text> You need to connect to Spotify to display the widget</Text>
+      </div>
+    );
+  }
 }
-
-export default SpotifyProfile;
