@@ -1,6 +1,8 @@
 {
   "include": [
-    "components/**/*"
+    "components/**/*",
+    "tools/**/*",
+    "pages/**/*"
   ],
   "compilerOptions": {
     "target": "es6",
