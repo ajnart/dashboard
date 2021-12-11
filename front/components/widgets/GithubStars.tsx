@@ -32,7 +32,7 @@ function GithubStars(props): JSX.Element {
 		fetchData();
 	}, []);
 	return (
-		<BubbleWrapper>
+		<BubbleWrapper color={props.color}>
 			<Link href={`https://github.com/${props.repoUrl}`}><Text>{`${fetchedData["stargazers_count"]}`}🌟</Text></Link>
 		</BubbleWrapper>
 	)
