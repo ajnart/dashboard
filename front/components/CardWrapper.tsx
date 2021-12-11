@@ -12,9 +12,11 @@ import {
 	HStack,
 	Spacer,
 	WrapItem,
+	useToast,
 
 } from "@chakra-ui/react"
 import React from "react";
+import { useCookies } from "react-cookie";
 
 /**
  * Component used to wrap. (includes a WrapItem)  
@@ -24,6 +26,21 @@ import React from "react";
  * ```
  */
 function CardWrapper(props) {
+	const toast = useToast()
+	const [cookies, setCookie] = useCookies(['spotifyService']);
+	if (cookies.spotifyService == undefined) {
+		toast.closeAll();
+		toast({
+			variant: 'error',
+			title: 'Spotify Service',
+			description: 'Please login to Spotify',
+			status: 'error',
+			duration: 2000,
+			position: 'top-right',
+			isClosable: true,
+		})
+		return (null);
+	}
 	return (
 		<WrapItem>
 			<Box

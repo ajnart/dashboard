@@ -32,8 +32,8 @@ function GithubStars(props): JSX.Element {
 		fetchData();
 	}, []);
 	return (
-		<BubbleWrapper color={props.color}>
-			<Link href={`https://github.com/${props.repoUrl}`}><Text>{`${fetchedData["stargazers_count"]}`}🌟</Text></Link>
+		<BubbleWrapper {...props}>
+			<Link href={`https://github.com/${props.repoUrl}`}><Text textAlign={"center"}>{`${fetchedData["stargazers_count"]}`}🌟</Text></Link>
 		</BubbleWrapper>
 	)
 }
