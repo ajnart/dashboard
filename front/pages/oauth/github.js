@@ -8,13 +8,17 @@ export default () => {
   const router = useRouter()
 
   function handleSuccess(response) {
-    setCookie('githubService', {
-      token: response.access_token,
-      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
-      refreshToken: response.refresh_token
-    }, { path: '/' });
-    console.log('Successfully authorized github. access token:' + response)
-    router.replace('/')
+    if (!response.access_token) {
+      handleError(response)
+    } else {
+      setCookie('githubService', {
+        token: response.access_token,
+        expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+        refreshToken: response.refresh_token
+      }, { path: '/' });
+      console.log('Successfully authorized github. access token:' + response)
+      router.replace('/')
+    }
   };
 
   function handleError(error) {
@@ -22,7 +26,7 @@ export default () => {
     console.error(error.message);
   };
 
-  return (
+  return !router.query.code ? <></> : (
     <Receiver
       handleSuccess={handleSuccess}
       handleError={handleError}
