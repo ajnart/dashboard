@@ -28,11 +28,11 @@ function CardWrapper(props) {
 	return (
 		<WrapItem>
 			<Box
+				resize='horizontal' overflow='auto'
 				bg={useColorModeValue('white', 'gray.900')}
 				boxShadow={'2xl'}
 				rounded={'md'}
 				p={6}
-				overflow={'hidden'}
 			>
 				<HStack m="4">
 					<Text
