@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'React';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 function widgetsUpdate(name: string, description: string, serviceName: string, params : any) {
 	const [cookies, setCookie] = useCookies(['user']);
@@ -87,4 +87,9 @@ function servicesFetch(serviceName: string) {
     }
     return (serviceList);
 }
-export default widgetsUpdate;
+
+module.exports = {
+	widgetsUpdate,
+	widgetsFetch,
+	servicesFetch
+};
