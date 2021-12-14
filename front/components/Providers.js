@@ -188,7 +188,8 @@ const googleSend = () => {
       clientId="297024806589-igr7j5qh2l2jbd5vt10ok0goj5ghevbn.apps.googleusercontent.com"
       redirectUri="http://localhost:3000/oauth/google"
       args={{
-        scope: "https://www.googleapis.com/auth/youtube https://mail.google.com/ https://www.googleapis.com/auth/userinfo.email",
+        scope: "https://www.googleapis.com/auth/youtube https://mail.google.com/ https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+
         client_id: "297024806589-igr7j5qh2l2jbd5vt10ok0goj5ghevbn.apps.googleusercontent.com"
 
       }}
