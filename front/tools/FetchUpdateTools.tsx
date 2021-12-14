@@ -55,7 +55,6 @@ async function servicesFetch(token :string) {
     for (let service of fetchedData) {
         serviceList.push(widgetsFetch(token, service.name));
     }
-	console.log(serviceList);
     return (serviceList);
 }
 
