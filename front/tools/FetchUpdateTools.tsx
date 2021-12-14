@@ -2,52 +2,33 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 
-function widgetsUpdate(name: string, description: string, serviceName: string, params : any) {
-	const [cookies, setCookie] = useCookies(['user']);
-	const [fetchedData, setData] = useState();
+async function widgetsUpdate(token :string, name: string, description: string, serviceName: string, params : any) {
 
-    useEffect(() => {
-		console.log(cookies.user.spotifyService.token);
-		async function fetchData() {
-			try {
-				const res = await axios.put(`https://localhost:8080/widget/put`, {
-					params: {
-                        token: cookies.user.token,
-                        name: name,
-                        description: description,
-                        serviceName: serviceName,
-                        params: JSON.stringify(params),
-                    }
-				});
-				setData(res.data);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-		fetchData();
-	}, []);
-}	
+	const res = await axios.put(`https://localhost:8080/widget/put`, {
+			params: {
+    	        token: token,
+    	        name: name,
+    	        description: description,
+    	        serviceName: serviceName,
+    	        params: JSON.stringify(params),
+    	    }
+	});
+}
 
-function widgetsFetch(serviceName: string) {
-	const [cookies, setCookie] = useCookies(['user']);
-	const [fetchedData, setData] = useState([]);
+async function widgetsFetch(token :string, serviceName: string) {
+	let fetchedData = [];
 
-    useEffect(() => {
-		async function fetchData() {
-			try {
-				const res = await axios.put(`https://localhost:8080/widget/fetchAll`, {
-					params: {
-                        token: cookies.user.token,
-                        serviceName: serviceName,
-                    }
-				});
-				setData(res.data);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-		fetchData();
-	}, []);
+	try {
+		const res = await axios.get(`https://localhost:8080/widget/fetchAll`, {
+			params: {
+                token: token,
+                serviceName: serviceName,
+            }
+		});
+		fetchedData = (res.data);
+	} catch (err) {
+		console.log(err);
+	}
 
 	let widgetList : Array<string> = [];
     for (let widget of fetchedData) {
@@ -56,31 +37,25 @@ function widgetsFetch(serviceName: string) {
     return (widgetList);
 }
 
-function servicesFetch(serviceName: string) {
-	const [cookies, setCookie] = useCookies(['user']);
-	const [fetchedData, setData] = useState([]);
+async function servicesFetch(token :string) {
+	let fetchedData = [];
 
-    useEffect(() => {
-		async function fetchData() {
-			try {
-				const res = await axios.put(`https://localhost:8080/services/fetchAll`, {
-					params: {
-                        token: cookies.user.token,
-                        serviceName: serviceName,
-                    }
-				});
-				setData(res.data);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-		fetchData();
-	}, []);
+	try {
+		const res = await axios.get(`https://localhost:8080/services/fetchAll`, {
+			params: {
+                token: token,
+            }
+		});
+		fetchedData = res.data;
+	} catch (err) {
+		console.log(err);
+	}
 
 	let serviceList = [];
     for (let service of fetchedData) {
-        serviceList.push(widgetsFetch(service.name));
+        serviceList.push(widgetsFetch(token, service.name));
     }
+	console.log(serviceList);
     return (serviceList);
 }
 
