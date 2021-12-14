@@ -103,7 +103,7 @@ router.put('/edit', (req, res) => {
                             } else {
                                 service[0].widgetsName = [widgetID];
                             }
-                            db.run(serviceInsert, [[JSON.stringify(service[0].widgetsName)], serviceName, profile[0].userID], (err) => {if (err) { throw err; }});
+                            db.run(serviceInsert, [[JSON.stringify(service[0].widgetsName)], serviceName], (err) => {if (err) { throw err; }});
                             res.status(201).send({message: 'Widget set successfully'});
                         });
                     } else {
