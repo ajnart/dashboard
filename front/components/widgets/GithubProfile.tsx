@@ -13,7 +13,7 @@ const emoji = require('country-to-emoji-flag')
 
 export default function githubProfile(token) {
   const [user, setUser]: any | undefined = useState();
-  const cookies = checkCookie("GithubService", "Github");
+  const cookies = checkCookie("GithubService");
 	if (cookies == null)
 		return null;
 

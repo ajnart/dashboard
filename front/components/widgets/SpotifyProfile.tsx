@@ -12,7 +12,7 @@ import checkCookie from '../../tools/checkCookie'
 
 export default function spotifyProfile() {
     const [user, setUser] : any | undefined = useState();
-	const cookies = checkCookie("spotifyService", "Spotify");
+	const cookies = checkCookie("spotifyService");
 	if (cookies == null)
 		return null;
 	useEffect(() => {
