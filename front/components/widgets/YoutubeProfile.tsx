@@ -14,7 +14,7 @@ import checkCookie from '../../tools/checkCookie'
 
 export default function YoutubeProfile(token) {
   const [user, setUser] : any | undefined = useState();
-  const cookies = checkCookie("gmailService");
+  const cookies = checkCookie("gmailService", "Gmail");
 	if (cookies == null)
 		return null;
 

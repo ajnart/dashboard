@@ -39,7 +39,6 @@ function SpotifyPlaylists(props: any) {
 	if (cookies == null)
 		return null;
 	useEffect(() => {
-		console.log(cookies.spotifyService.token);
 		async function fetchData() {
 			try {
 				const res = await axios.get(`https://api.spotify.com/v1/me/playlists`, {
