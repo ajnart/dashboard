@@ -207,7 +207,7 @@ export default function AddWidgetButton() {
 	};
 	return (
 		<Menu>
-			<MenuButton as={Button} leftIcon={<SiAddthis />} >
+			<MenuButton position={"fixed"} left={5} bottom={5} as={Button} leftIcon={<SiAddthis />} >
 				Add a widget
 			</MenuButton>
 			<MenuList>
@@ -216,7 +216,6 @@ export default function AddWidgetButton() {
 				<CustomModal showModalButtonText={"Gmail"} modalHeader={"Gmail add widget menu"} modalBody={GmailBody} leftIcon={<SiGmail />} />
 				<CustomModal showModalButtonText={"Spotify"} modalHeader={"Spotify add widget menu"} modalBody={SpotifyBody} leftIcon={<SiSpotify />} />
 				<CustomModal showModalButtonText={"RedTube"} modalHeader={"RedTube add widget menu"} modalBody={RedTubeBody} leftIcon={<AiFillFire />} />
-
 			</MenuList>
 		</Menu>
 	)
