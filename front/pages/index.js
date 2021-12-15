@@ -67,9 +67,7 @@ export default function Home() {
     <>
       <ServicePannel service={service} setService={setService} />
       <Wrap justify={'center'} spacing={5}>
-        {widgets.map((widget, index) => {
-          return <div key={index}>{widget}</div>
-        })}
+      <DisplayWidgets token = {cookies.user.token}  />
       </Wrap>
       <AddWidgetButton />
     </>

@@ -53,7 +53,8 @@ export default function DisplayWidgets(token :string)
     return (
         <Box>
             {
-                widgetsList.map((widgets, idx1) => widgets.map((widget, idx2) => NameToWidgets(widget.name, JSON.parse(widget.params), `${idx1}-${idx2}`)))
+                widgetsList ? widgetsList.map((widgets, idx1) => widgets.map((widget, idx2) => NameToWidgets(widget.name, JSON.parse(widget.params), `${idx1}-${idx2}`)))
+                : null
             }
         </Box>
     );
