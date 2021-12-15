@@ -48,7 +48,7 @@ export default function Home() {
   const toast = useToast()
   const [widets, setWidgets] = useState(widgets)
   const [service, setService] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(['name']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const { colorMode, toggleColorMode } = useColorMode();
   console.log(process.env.GOOGLE_ID)
   useEffect(() => {
@@ -70,6 +70,7 @@ export default function Home() {
         {widgets.map((widget, index) => {
           return <div key={index}>{widget}</div>
         })}
+      <DisplayWidgets token = {cookies.user.token}  />
       </Wrap>
       <AddWidgetButton />
     </>
