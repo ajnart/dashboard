@@ -11,6 +11,7 @@ export const widgetsUpdate= async (token :string, name: string, description: str
     	        params: JSON.stringify(params),
     	    }
 	});
+	return res.data;
 }
 
 export const widgetsDelete = async (token :string, name: string) => {
@@ -21,6 +22,7 @@ export const widgetsDelete = async (token :string, name: string) => {
     	        name: name
     	    }
 	});
+	return res.data;
 }
 
 export const widgetsFetch = async (token :any, serviceName: string) => {
