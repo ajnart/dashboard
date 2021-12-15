@@ -1,4 +1,5 @@
-import ServicePannel from '../components/ServicePannel'
+import ServicePannel from '../components/ServicePannel';
+import DisplayWidgets from '../tools/DisplayWidgets';
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
