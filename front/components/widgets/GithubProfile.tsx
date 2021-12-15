@@ -9,7 +9,6 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import CardWrapper from '../CardWrapper'
 import checkCookie from '../../tools/checkCookie'
 import axios from 'axios'
-const emoji = require('country-to-emoji-flag')
 
 export default function githubProfile(token) {
   const [user, setUser]: any | undefined = useState();

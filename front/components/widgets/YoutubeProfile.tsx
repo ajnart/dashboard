@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import axios from 'axios'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-const emoji = require('country-to-emoji-flag')
 import CardWrapper from '../CardWrapper'
 import checkCookie from '../../tools/checkCookie'
 
