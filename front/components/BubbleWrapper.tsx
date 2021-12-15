@@ -1,5 +1,6 @@
 
-import { AspectRatio, Box, Center, Link, Text, WrapItem } from "@chakra-ui/layout";
+import { AspectRatio, Box, Center, Link, Text, VStack, WrapItem } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/react";
 import React from "react";
 
 /**
@@ -10,20 +11,14 @@ import React from "react";
  * ```
  */
 function BubbleWrapper(props): JSX.Element {
-	
+
 	return (
-		<WrapItem>
-			<Box p="5" borderRadius="90" boxShadow={'2xl'} backgroundColor={props.color ? props.color : "blue.500"}>
-				{
-					<>
-					{props.showTitle ? <Text textAlign={"center"}>{props.name}</Text> : null}
-					{props.link ? <Link href={props.link}>{props.children}</Link> : props.children}
-					</>
-				}
-			</Box>
-		</WrapItem >
+		<Button p="5" isRound boxShadow={'xl'}  {...props} backgroundColor={props.color ? props.color : "teal"}>
+			{props.showTitle ? <Text textAlign={"center"}>{props.name}</Text> : null}
+			{props.link ? <Link href={props.link}>{props.children}</Link> : props.children}
+		</Button>
 	);
-	
+
 }
 
 export default BubbleWrapper;
