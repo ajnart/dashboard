@@ -8,17 +8,32 @@ export default () => {
   const router = useRouter()
 
   function handleSuccess(accessToken, { response }) {
-    setCookie('youtubeService', {
+    axios.post("localhost:8080/service/new", {
+      name: "youtube",
+      position: 0,
       token: accessToken,
-      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
       refreshToken: response.refresh_token
-    }, { path: '/' });
-    setCookie('gmailService', {
+    })
+      .then(() => {
+        setCookie('youtubeService', {
+          token: accessToken,
+          expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+          refreshToken: response.refresh_token
+        }, { path: '/' });
+      })
+    axios.post("localhost:8080/service/new", {
+      name: "gmail",
+      position: 0,
       token: accessToken,
-      expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
       refreshToken: response.refresh_token
-    }, { path: '/' });
-    console.log('Successfully authorized. access token:' + response)
+    })
+      .then(() => {
+        setCookie('gmailService', {
+          token: accessToken,
+          expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
+          refreshToken: response.refresh_token
+        }, { path: '/' });
+      })
     router.replace('/')
   };
 

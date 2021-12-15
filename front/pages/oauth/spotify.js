@@ -8,6 +8,12 @@ export default () => {
   const router = useRouter()
 
   function handleSuccess(response) {
+    axios.post("localhost:8080/service/new", {
+      name: "spotify",
+      position: 0,
+      token: response.access_token,
+      refreshToken: response.refresh_token
+    })
     setCookie('spotifyService', {
       token: response.access_token,
       expires: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),

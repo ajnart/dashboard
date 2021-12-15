@@ -8,7 +8,6 @@ export default function Home() {
 
   const router = useRouter()
   const toast = useToast()
-  const [service, setService] = useState("");
   const [cookies, setCookie] = useCookies(['name']);
   console.log(process.env.GOOGLE_ID)
   useEffect(() => {
@@ -25,7 +24,7 @@ export default function Home() {
 
   return !cookies["user"] ? <div></div> : (
     <div>
-      <ServicePannel service={service} setService={setService} />
+      <ServicePannel />
     </div>
   )
 }
