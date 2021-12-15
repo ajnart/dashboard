@@ -7,8 +7,8 @@ import {
 	Flex,
 	Text,
 	Stack,
-	Link
 } from "@chakra-ui/react";
+import Link from 'next/link'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 export default function Header() {
@@ -16,14 +16,16 @@ export default function Header() {
 	const { colorMode, toggleColorMode } = useColorMode();
 	return (<Box p={5} bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
 		<Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+			<Link href="/">
 			<Text
 				bgGradient='linear(to-l, #7928CA, #FF0080)'
 				bgClip='text'
 				fontSize='6xl'
 				fontWeight='extrabold'
-			>
+				>
 				Chadboard
 			</Text>
+				</Link>
 			<Flex alignItems={'center'}>
 				<Stack direction={'row'} spacing={7}></Stack>
 				<Button mr="4" onClick={toggleColorMode}>
