@@ -1,0 +1,32 @@
+{
+  "include": [
+    "components/widgets/*",
+    "components/**/*",
+    "tools/**/*",
+    "pages/**/*"
+  ],
+  "compilerOptions": {
+    "target": "es6",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

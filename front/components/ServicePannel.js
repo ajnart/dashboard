@@ -15,21 +15,24 @@ import {
   useDisclosure
 } from '@chakra-ui/react'
 import { useRef } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { useCookies } from 'react-cookie';
+import AddServiceButton from "./AddServiceButton"
+import { ServiceContext } from './hooks/ServiceContext'
+import { GrConnect } from 'react-icons/gr'
 
 import { providers } from './Providers'
 import ConnectionModal from './ConnectionModale'
 
-const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
+const ServiceButton = ({ index, provider, closeDrawer }) => {
   const s = {
     OK: 0,
     KO: 1,
     loading: 2,
   }
-  const provider = providers.find(provider => provider.name === name)
-  const cookieName = name + 'Service'
+  const serviceContext = useContext(ServiceContext)
+  const cookieName = provider.name + 'Service'
   const [cookies, setCookie] = useCookies(['currentServiceName', cookieName]);
   const [isConnected, setIsConnected] = useState(s.loading);
   const serviceCookie = cookies[cookieName]
@@ -39,11 +42,11 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       console.log(provider)
       await provider.check({ token: serviceCookie.token })
         .then(() => {
-          console.log(name, ": good...")
+          console.log(provider.name, ": good...")
           setIsConnected(s.OK)
         })
         .catch(() => {
-          console.log(name, ": oof...")
+          console.log(provider.name, ": oof...")
           setIsConnected(s.KO)
         })
     }
@@ -56,7 +59,7 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       }
     }
     else {
-      console.log(name, ": checking connection...")
+      console.log(provider.name, ": checking connection...")
       checkConnection()
     }
   }, [])
@@ -69,8 +72,8 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
       onOpen()
       return
     }
-    setCookie('currentServiceName', name, { path: '/' })
-    setService(name)
+    setCookie('currentServiceName', provider.name, { path: '/' })
+    serviceContext.selectService(provider.name)
     closeDrawer()
   }
 
@@ -84,11 +87,11 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
         ml={5}
         mr={5}
         onClick={selectService}
-        background={service == name ? "lightgrey" : ""}
+        background={serviceContext.selectedService == provider.name ? "lightgrey" : ""}
       >
         <HStack justifyContent="space-between" w="100%">
           <VStack align="left">
-            <Text as="b" size="md" align="left">{name}</Text>
+            <Text as="b" size="md" align="left">{provider.name}</Text>
             <Text size="sm" align="left">this is a description</Text>
           </VStack>
           <Circle
@@ -97,45 +100,51 @@ const ServiceButton = ({ index, name, service, setService, closeDrawer }) => {
           />
         </HStack>
       </Button>
-      <ConnectionModal isOpen={isOpen} onClose={onClose} serviceName={name} />
+      <ConnectionModal isOpen={isOpen} onClose={onClose} service={provider} />
     </>
   )
 }
 
-export default ({ service, setService }) => {
+export default () => {
   // const obj = JSON.parse(mockdata);
   // const dataset = obj.services
+  const serviceContext = useContext(ServiceContext)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
+  const [cookies] = useCookies()
   const [dataset, setDataset] = useState([])
 
-  useEffect(() => {
-    async function fetchList() {
-      return await fetch('/api/services')
-      .then(res => {
-        console.log(res.json())
-        setDataset(res.json())
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    }
-    fetchList()
-  }, [])
+  // useEffect(() => {
+  //   async function fetchList() {
+  //     return await fetch('http://localhost:8080/service/fetchAll?token=' + cookies.user.token)
+  //       .then(res => {
+  //         setDataset(
+  //           serviceContext.providers.filter((elem) => {
+  //             return elem.name in res;
+  //           })
+  //         )
+  //       })
+  //       .catch(_ => {
+  //       })
+  //   }
+  //   fetchList()
+  // }, [])
+  // const list = ["youtube", "gmail"]
 
   return (
     <>
-      <IconButton
+      <Button
+        boxShadow={'xl'}
+        position={"fixed"} left={-5} bottom={20}
         isRound
         colorScheme="blue"
         aria-label="Toggle service list"
         mt={8}
         ml={8}
-        icon={<GiHamburgerMenu />}
+        leftIcon={<GrConnect />}
         onClick={onOpen}
         ref={btnRef}
-      >
-      </IconButton>
+      >Connect a service</Button>
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -150,15 +159,14 @@ export default ({ service, setService }) => {
           </DrawerHeader>
           <DrawerBody>
             <VStack spacing={10}>
-              {dataset.services.map((item, index) => (
+              {serviceContext.providers.map((item, index) => (
                 <ServiceButton
                   key={index}
-                  name={item.name}
-                  service={service}
-                  setService={setService}
+                  provider={item}
                   closeDrawer={onClose}
                 />
               ))}
+              {/* <AddServiceButton list={list} /> */}
             </VStack>
           </DrawerBody>
           <DrawerFooter>
