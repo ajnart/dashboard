@@ -4,7 +4,7 @@ const { randomBytes } = require('crypto');
 const db = require('../db');
 
 router.get('/fetchAll', (req, res) => {       
-    const { token, serviceName } = req.body;
+    const { token, serviceName } = req.query;
 
     db.all('SELECT * FROM USERS_TABLE WHERE Token = ?', token, (err, profile) => {
         if (err) { 
@@ -18,7 +18,7 @@ router.get('/fetchAll', (req, res) => {
                 if (data[0]) {
                     res.status(202).send(data); 
                 } else {
-                    res.status(404).send({message: 'Service not found'});
+                    res.status(202).send({message: 'Widgets not found'});
                 }
             });
         } else {
@@ -109,6 +109,33 @@ router.put('/edit', (req, res) => {
                     } else {
                         res.status(404).send({message: 'Service not found'});
                     }
+                })
+            });
+        } else {
+            res.status(403).send({ message: 'Token is not valid'});
+        }
+    });
+});
+
+router.delete('/delete', (req, res) => {
+    const widgetID =  randomBytes(4).toString('hex');
+    const {token, name}= req.body;
+    const sqlDelete = "DELETE FROM WIDGET_TABLE WHERE userID = ? AND name = ?";
+
+    db.all('SELECT * FROM USERS_TABLE WHERE Token = ?', token, (err, profile) => {
+        if (err) { 
+            throw err;
+        }
+        if (profile[0]) {
+            db.all('SELECT * FROM WIDGET_TABLE WHERE name = ? and userID = ?' , [name, profile[0].userID], (err, data) => {
+                if (err) { 
+                    throw err; 
+                }
+                db.all(sqlDelete, [profile[0].userID, name], (err, service) => {
+                    if (err) { 
+                        throw err; 
+                    }     
+                    res.status(202).send({message: 'Widget deleted successfully'});
                 })
             });
         } else {

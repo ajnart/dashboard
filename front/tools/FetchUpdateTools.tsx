@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
 import axios from "axios";
 
-async function widgetsUpdate(token :string, name: string, description: string, serviceName: string, params : any) {
+export const widgetsUpdate= async (token :string, name: string, description: string, serviceName: string, params : any) => {
 
-	const res = await axios.put(`https://localhost:8080/widget/put`, {
+	const res = await axios.put(`https://localhost:8080/widget/edit`, {
 			params: {
     	        token: token,
     	        name: name,
@@ -15,7 +13,17 @@ async function widgetsUpdate(token :string, name: string, description: string, s
 	});
 }
 
-async function widgetsFetch(token :string, serviceName: string) {
+export const widgetsDelete = async (token :string, name: string) => {
+
+	const res = await axios.delete(`https://localhost:8080/widget/delete`, {
+			params: {
+    	        token: token,
+    	        name: name
+    	    }
+	});
+}
+
+export const widgetsFetch = async (token :string, serviceName: string) => {
 	let fetchedData = [];
 
 	try {
@@ -37,7 +45,7 @@ async function widgetsFetch(token :string, serviceName: string) {
     return (widgetList);
 }
 
-async function servicesFetch(token :string) {
+export const servicesFetch = async (token :string) => {
 	let fetchedData = [];
 
 	try {
@@ -57,9 +65,3 @@ async function servicesFetch(token :string) {
     }
     return (serviceList);
 }
-
-module.exports = {
-	widgetsUpdate,
-	widgetsFetch,
-	servicesFetch
-};
