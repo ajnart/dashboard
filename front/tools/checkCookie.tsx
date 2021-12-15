@@ -7,10 +7,10 @@ function checkCookie(cookieName: string, servicename: string) {
 	if (cookies[`${cookieName}`] == undefined) {
 		toast.closeAll();
 		toast({
-			variant: 'error',
 			title: `${servicename} Service`,
 			description: `Please login to ${servicename}`,
 			status: 'error',
+			variant: 'left-accent',
 			duration: 2000,
 			position: 'top-right',
 			isClosable: true,

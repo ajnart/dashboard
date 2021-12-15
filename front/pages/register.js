@@ -73,7 +73,7 @@ export default function HookForm() {
   }
   return (
     <>
-      <Center h="100vh">
+      <Center h="50vh">
         <VStack>
           <Text fontSize="4xl" m="4">Welcome! Please register</Text>
           <form onSubmit={handleSubmit(onSubmit)}>
