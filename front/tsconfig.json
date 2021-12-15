@@ -1,5 +1,6 @@
 {
   "include": [
+    "components/widgets/*",
     "components/**/*",
     "tools/**/*",
     "pages/**/*"

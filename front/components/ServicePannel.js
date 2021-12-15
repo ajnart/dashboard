@@ -20,6 +20,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { useCookies } from 'react-cookie';
 import AddServiceButton from "./AddServiceButton"
 import { ServiceContext } from './hooks/ServiceContext'
+import { GrConnect } from 'react-icons/gr'
 
 import { providers } from './Providers'
 import ConnectionModal from './ConnectionModale'
@@ -132,16 +133,17 @@ export default () => {
 
   return (
     <>
-      <IconButton
+      <Button
+        position={"fixed"} left={-5} bottom={20}
         isRound
         colorScheme="blue"
         aria-label="Toggle service list"
         mt={8}
         ml={8}
-        icon={<GiHamburgerMenu />}
+        leftIcon={<GrConnect />}
         onClick={onOpen}
         ref={btnRef}
-      />
+      >Connect a service</Button>
       <Drawer
         isOpen={isOpen}
         placement="left"

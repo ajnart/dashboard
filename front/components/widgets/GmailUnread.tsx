@@ -1,10 +1,12 @@
 
-import { AspectRatio, Box, Link, Text } from "@chakra-ui/layout";
+import { AspectRatio, Box, Link, Text, VStack } from "@chakra-ui/layout";
 import axios from "axios";
 import React from "react";
 import { useCookies } from "react-cookie";
 import BubbleWrapper from "../BubbleWrapper";
 import { useState, useEffect } from "react"
+import checkCookie from "../../tools/checkCookie";
+import { EmailIcon } from "@chakra-ui/icons";
 
 /**
  * Component used to display a user unread mails.
@@ -15,7 +17,9 @@ import { useState, useEffect } from "react"
  */
 function GmailUnread(props): JSX.Element {
 	const [fetchedData, setData] = useState([]);
-	const [cookies, setCookie] = useCookies(['gmailService']);
+	const cookies = checkCookie("gmailService", "Gmail");
+	if (cookies == null)
+		return null;
 	useEffect(() => {
 		console.log(cookies.gmailService.token);
 		async function fetchData() {
@@ -34,7 +38,7 @@ function GmailUnread(props): JSX.Element {
 	}, []);
 	return (
 		<BubbleWrapper {...props}>
-			<Link href="https://mail.google.com/#inbox"><Text>{`${fetchedData["messagesUnread"]}`} unread</Text></Link>
+			<Link href="https://mail.google.com/#inbox"><VStack><EmailIcon /><Text>{`${fetchedData["messagesUnread"]}`}</Text></VStack></Link>
 		</BubbleWrapper>
 	)
 }
