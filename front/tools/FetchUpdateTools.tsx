@@ -23,45 +23,43 @@ export const widgetsDelete = async (token :string, name: string) => {
 	});
 }
 
-export const widgetsFetch = async (token :string, serviceName: string) => {
-	let fetchedData = [];
+export const widgetsFetch = async (token :any, serviceName: string) => {
+	let fetchedData : any[] | any = [];
+	let widgetList = [];
 
-	try {
-		const res = await axios.get(`https://localhost:8080/widget/fetchAll`, {
-			params: {
-                token: token,
-                serviceName: serviceName,
-            }
-		});
-		fetchedData = (res.data);
-	} catch (err) {
-		console.log(err);
-	}
-
-	let widgetList : Array<string> = [];
-    for (let widget of fetchedData) {
-        widgetList.push(widget.description);
-    }
-    return (widgetList);
+		try {	
+			const res = await axios.get(`http://localhost:8080/widget/fetchAll?token=`+ token.token + "&serviceName=" + serviceName, {
+			})
+			fetchedData = res.data;
+			if (fetchedData.message) {
+				return [];
+			}
+			for (let widget of fetchedData) {
+				widgetList.push(widget);
+			}
+			return (widgetList);
+		} catch (err) {
+			console.log(err);
+		}
 }
 
-export const servicesFetch = async (token :string) => {
+export default async function servicesFetch(token : any)
+{
 	let fetchedData = [];
+	let serviceList = [];
 
 	try {
-		const res = await axios.get(`https://localhost:8080/services/fetchAll`, {
-			params: {
-                token: token,
-            }
-		});
+		const res = await axios.get(`http://localhost:8080/service/fetchAll?token=` + token.token, {
+		})
 		fetchedData = res.data;
+		for (let service of fetchedData) {
+			const wait = await widgetsFetch(token, service.name);
+			serviceList.push(wait);
+		}
+		console.log("aré plein", serviceList);
+		return (serviceList);
 	} catch (err) {
 		console.log(err);
 	}
 
-	let serviceList = [];
-    for (let service of fetchedData) {
-        serviceList.push(widgetsFetch(token, service.name));
-    }
-    return (serviceList);
 }

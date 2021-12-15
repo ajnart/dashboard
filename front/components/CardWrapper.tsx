@@ -12,19 +12,14 @@ import {
 	HStack,
 	Spacer,
 	WrapItem,
-	useToast,
-
 } from "@chakra-ui/react"
 import React from "react";
+import { widgetsDelete } from "../tools/FetchUpdateTools";
+import { useCookies } from 'react-cookie';
 
-/**
- * Component used to wrap. (includes a WrapItem)  
- * ``children`` props is **required**
- * ```ts
- * <CardWrapper name="Hello world!"><Text>Bonjour a tout•e•s</Text></CardWrapper>
- * ```
- */
-function CardWrapper(props) {
+function CardWrapper(props : any) {
+	const [cookies, setCookie] = useCookies(['user']);
+
 	return (
 		<WrapItem>
 			<Box

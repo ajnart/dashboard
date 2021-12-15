@@ -10,7 +10,7 @@ import CardWrapper from '../CardWrapper'
 import checkCookie from '../../tools/checkCookie'
 import axios from 'axios'
 
-export default function githubProfile(token) {
+export default function githubProfile() {
   const [user, setUser]: any | undefined = useState();
   const cookies = checkCookie("GithubService", "Github");
 	if (cookies == null)
@@ -34,7 +34,7 @@ export default function githubProfile(token) {
   }, []);
 
   return (
-    <CardWrapper name="Github Profile">
+    <CardWrapper name="Github Profile" widgetName="">
       { user ? 
         <>
         <Text>Username: {user.login}</Text>

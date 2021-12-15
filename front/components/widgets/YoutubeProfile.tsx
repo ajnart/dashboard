@@ -11,7 +11,7 @@ import { ExternalLinkIcon } from '@chakra-ui/icons'
 import CardWrapper from '../CardWrapper'
 import checkCookie from '../../tools/checkCookie'
 
-export default function YoutubeProfile(token) {
+export default function YoutubeProfile() {
   const [user, setUser] : any | undefined = useState();
   const cookies = checkCookie("gmailService", "Gmail");
 	if (cookies == null)
