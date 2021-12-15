@@ -29,21 +29,21 @@ router.get('/fetch', (req, res) => {
 });
 
 router.get('/fetchAll', (req, res) => {       
-    const { token } = req.body;
+    const { token } = req.query;
 
     db.all('SELECT * FROM USERS_TABLE WHERE Token = ?', token, (err, profile) => {
         if (err) { 
             throw err;
         }
         if (profile[0]) {
-            db.all('SELECT * FROM SERVICES_TABLE WHERE userID = ?', [profile[0].userID, name], (err, data) => {
+            db.all('SELECT * FROM SERVICES_TABLE WHERE userID = ?', [profile[0].userID], (err, data) => {
                 if (err) { 
                     throw err;
                 }
                 if (data[0]) {
                     res.status(202).send(data); 
                 } else {
-                    res.status(404).send({message: 'Service not found'});
+                    res.status(404).send({message: 'Services not found'});
                 }
             });
         } else {

@@ -4,7 +4,7 @@ const { randomBytes } = require('crypto');
 const db = require('../db');
 
 router.get('/fetchAll', (req, res) => {       
-    const { token, serviceName } = req.body;
+    const { token, serviceName } = req.query;
 
     db.all('SELECT * FROM USERS_TABLE WHERE Token = ?', token, (err, profile) => {
         if (err) { 
@@ -18,7 +18,7 @@ router.get('/fetchAll', (req, res) => {
                 if (data[0]) {
                     res.status(202).send(data); 
                 } else {
-                    res.status(404).send({message: 'Widgets not found'});
+                    res.status(202).send({message: 'Widgets not found'});
                 }
             });
         } else {
