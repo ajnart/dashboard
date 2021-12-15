@@ -75,7 +75,7 @@ export default function HookForm() {
   }
   return cookie["user"] ? <></> : (
     <>
-      <Center h="100vh">
+      <Center h="50vh">
         <VStack>
           <Text fontSize="4xl" m="4">Welcome back ! Please log-in</Text>
           <form onSubmit={handleSubmit(onSubmit)}>
