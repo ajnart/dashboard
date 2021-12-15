@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import providers from "../Providers"
+import { providers } from "../Providers"
 
 export const ServiceContext = createContext();
 

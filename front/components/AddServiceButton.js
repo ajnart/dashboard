@@ -10,36 +10,58 @@ import {
   Center,
   Select,
   useDisclosure
-} from "@chakra-ui/react"
-import { useForm } from "react-hook-form"
-import { AddIcon } from "@chakra-ui/icons"
-import ConnectionModale from "./ConnectionModale"
-import { useState } from "react"
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+import { AddIcon } from "@chakra-ui/icons";
+import ConnectionModale from "./ConnectionModale";
+import { useState, useContext, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { ServiceContext } from './hooks/ServiceContext';
 
-const ConnectionModaleWrap = ({ name, selectService }) => {
+const ConnectionModaleWrap = ({ service, selectService }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  useState(() => {
-    onOpen()
-  }, [])
+  const serviceContext = useContext(ServiceContext);
+  useEffect(() => {
+    onOpen();
+  }, []);
   function onCloseWrap() {
-    onClose()
-    selectService("")
+    onClose();
+    selectService("");
   }
+  const bite = serviceContext.providers.find((elem) => elem.name == service);
   return (
-    <ConnectionModale isOpen={isOpen} onClose={onCloseWrap} serviceName={name} />
-  )
-}
+    <ConnectionModale isOpen={isOpen} onClose={onCloseWrap} service={bite} />
+  );
+};
 
-const Add = ({ services, isOpen, onClose, selectService }) => {
+const Add = ({ isOpen, onClose, selectService }) => {
   const {
     handleSubmit,
     register
   } = useForm();
+  const serviceContext = useContext(ServiceContext);
+  const [dataset, setDataset] = useState(serviceContext.providers);
+  const [cookies] = useCookies(['user']);
 
   function onSubmit(data) {
-    console.log(data)
-    selectService(data.service)
+    selectService(data.service);
   }
+
+  useEffect(() => {
+    async function fetchList() {
+      return await fetch('http://localhost:8080/service/fetchAll?token=' + cookies.user.token)
+        .then(res => {
+          setDataset(
+            serviceContext.providers.filter((elem) => {
+              return !(elem.name in res);
+            })
+          );
+        })
+        .catch(_ => {
+        });
+    }
+    fetchList();
+  }, []);
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} >
@@ -48,7 +70,7 @@ const Add = ({ services, isOpen, onClose, selectService }) => {
           <ModalHeader>Choose a service to add</ModalHeader>
           <ModalBody>
             <Center>
-              <form onSubmit={handleSubmit(onSubmit)}>
+              {dataset && <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl>
                   <Select
                     id="service"
@@ -57,8 +79,8 @@ const Add = ({ services, isOpen, onClose, selectService }) => {
                       required: "pls",
                     })}
                   >
-                    {services.map((service, _) => (
-                      <option value={service}>{service}</option>
+                    {dataset.map((service, _) => (
+                      <option value={service.name}>{service.name}</option>
                     ))}
                   </Select>
                 </FormControl>
@@ -67,18 +89,20 @@ const Add = ({ services, isOpen, onClose, selectService }) => {
                     Submit
                   </Button>
                 </Box>
-              </form>
+              </form>}
             </Center>
           </ModalBody>
         </ModalContent>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default ({ list }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [selectedService, selectService] = useState("")
+export default () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedService, selectService] = useState("");
+
+  const serviceContext = useContext(ServiceContext);
   return (
     <>
       <Button
@@ -93,9 +117,11 @@ export default ({ list }) => {
           <AddIcon />
         </Center>
       </Button>
-      {selectedService == "" ? <Add services={list} onClose={onClose} isOpen={isOpen} selectService={selectService} />
-        : <ConnectionModaleWrap name={selectedService} selectService={selectService} />}
+      {selectedService == "" ? <Add onClose={onClose} isOpen={isOpen} selectService={selectService} />
+        : <ConnectionModaleWrap service={selectedService} selectService={selectService} />}
+      {/*selectedService == "" ? <Add onClose={onClose} isOpen={isOpen} selectService={selectService} />
+        { : <ConnectionModaleWrap service={selectedService} selectService={selectService} />} */}
     </>
 
-  )
-}
+  );
+};

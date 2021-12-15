@@ -100,7 +100,7 @@ const ServiceButton = ({ index, provider, closeDrawer }) => {
           />
         </HStack>
       </Button>
-      <ConnectionModal isOpen={isOpen} onClose={onClose} serviceName={provider.name} />
+      <ConnectionModal isOpen={isOpen} onClose={onClose} service={provider} />
     </>
   )
 }
@@ -114,22 +114,22 @@ export default () => {
   const [cookies] = useCookies()
   const [dataset, setDataset] = useState([])
 
-  useEffect(() => {
-    async function fetchList() {
-      return await fetch('http://localhost:8080/service/fetchAll?token=' + cookies.user.token)
-        .then(res => {
-          setDataset(
-            serviceContext.providers.filter((elem) => {
-              return elem.name in res.json();
-            })
-          )
-        })
-        .catch(_ => {
-        })
-    }
-    fetchList()
-  }, [])
-  const list = ["youtube", "gmail"]
+  // useEffect(() => {
+  //   async function fetchList() {
+  //     return await fetch('http://localhost:8080/service/fetchAll?token=' + cookies.user.token)
+  //       .then(res => {
+  //         setDataset(
+  //           serviceContext.providers.filter((elem) => {
+  //             return elem.name in res;
+  //           })
+  //         )
+  //       })
+  //       .catch(_ => {
+  //       })
+  //   }
+  //   fetchList()
+  // }, [])
+  // const list = ["youtube", "gmail"]
 
   return (
     <>
@@ -158,14 +158,14 @@ export default () => {
           </DrawerHeader>
           <DrawerBody>
             <VStack spacing={10}>
-              {dataset.map((item, index) => (
+              {serviceContext.providers.map((item, index) => (
                 <ServiceButton
                   key={index}
                   provider={item}
                   closeDrawer={onClose}
                 />
               ))}
-              <AddServiceButton list={list} />
+              {/* <AddServiceButton list={list} /> */}
             </VStack>
           </DrawerBody>
           <DrawerFooter>

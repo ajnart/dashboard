@@ -8,17 +8,15 @@ import {
   ModalBody,
   Center,
 } from "@chakra-ui/react"
-import { providers } from "./Providers"
 
-export default ({ serviceName, isOpen, onClose }) => {
-  const Sender = providers.find( ({name}) => name == serviceName).send
-  console.log(typeof serviceName)
+export default ({ service, isOpen, onClose }) => {
+  const Sender = service.send
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Connect to {serviceName}</ModalHeader>
+        <ModalHeader>Connect to {service.name}</ModalHeader>
         <ModalBody>
           <Center>
             <Sender />

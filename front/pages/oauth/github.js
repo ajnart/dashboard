@@ -1,7 +1,7 @@
 import { providers } from '../../components/Providers'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie';
-import { axios } from 'axios'
+import axios from 'axios'
 
 export default () => {
   const Receiver = providers.find(({ name }) => name === "github").receive
