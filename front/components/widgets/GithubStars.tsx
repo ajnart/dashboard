@@ -5,6 +5,8 @@ import React from "react";
 import { useCookies } from "react-cookie";
 import BubbleWrapper from "../BubbleWrapper";
 import { useState, useEffect } from "react"
+import { Button } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 
 /**
  * Component used to display a github repo's stars.
@@ -32,9 +34,7 @@ function GithubStars(props): JSX.Element {
 		fetchData();
 	}, []);
 	return (
-		<BubbleWrapper {...props}>
-			<Link href={`https://github.com/${props.repoUrl}`}><Text textAlign={"center"}>{`${fetchedData["stargazers_count"]}`}🌟</Text></Link>
-		</BubbleWrapper>
+		<Link href={`https://github.com/${props.repoUrl}`}><Button {...props} leftIcon={<StarIcon/>}>{`${fetchedData["stargazers_count"]} `}</Button></Link>
 	)
 }
 

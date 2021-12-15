@@ -7,6 +7,7 @@ import BubbleWrapper from "../BubbleWrapper";
 import { useState, useEffect } from "react"
 import checkCookie from "../../tools/checkCookie";
 import { EmailIcon } from "@chakra-ui/icons";
+import { Button } from "@chakra-ui/react";
 
 /**
  * Component used to display a user unread mails.
@@ -37,9 +38,7 @@ function GmailUnread(props): JSX.Element {
 		fetchData();
 	}, []);
 	return (
-		<BubbleWrapper {...props}>
-			<Link href="https://mail.google.com/#inbox"><VStack><EmailIcon /><Text>{`${fetchedData["messagesUnread"]}`}</Text></VStack></Link>
-		</BubbleWrapper>
+			<Link href="https://mail.google.com/#inbox"><Button {...props} leftIcon={<EmailIcon />}>{`${fetchedData["messagesUnread"]}`}</Button></Link>
 	)
 }
 

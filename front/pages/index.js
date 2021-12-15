@@ -1,4 +1,5 @@
-import ServicePannel from '../components/ServicePannel'
+import ServicePannel from '../components/ServicePannel';
+import DisplayWidgets from '../tools/DisplayWidgets';
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useCookies } from 'react-cookie'
@@ -33,15 +34,15 @@ export default function Home() {
 
   const widgets = [
     <SpotifyTrackEmbed songId="6eHKoMFFoMJ4cWwPscl382" />,
-    <SpotifyTrackEmbed songId="6Lvw6pbcXA4ugNMRQFlUaR" />,
-    <SpotifyEmbed playlistId="37i9dQZF1DXcBWIGoYBM5M" />,
+    <SpotifyTrackEmbed songId="7H3bV5VsjmGfXdZHRqxH89" />,
+    <SpotifyEmbed playlistId="71q50lo9uXiLFGr13ztQaw" />,
     <SpotifyPlaylists />,
     <spotifyProfile />,
     <githubProfile />,
     <YoutubeProfile />,
     <GmailSender />,
-    <GithubStars repoUrl="ajnart/mynetflix" />,
-    <GmailUnread />
+    <GithubStars rounded={'md'} position="fixed" right={5} bottom={20} repoUrl="ajnart/mynetflix" />,
+    <GmailUnread rounded={'md'} position="fixed" right={5} bottom={5}/>
   ]
   const router = useRouter()
   const toast = useToast()

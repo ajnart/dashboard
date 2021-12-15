@@ -207,7 +207,7 @@ export default function AddWidgetButton() {
 	};
 	return (
 		<Menu>
-			<MenuButton position={"fixed"} left={5} bottom={5} as={Button} leftIcon={<SiAddthis />} >
+			<MenuButton boxShadow={'xl'} position={"fixed"} left={5} bottom={5} as={Button} leftIcon={<SiAddthis />} >
 				Add a widget
 			</MenuButton>
 			<MenuList>
